@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/Pav0l/express-restricted/issues"
   },
-  "homepage": "https://github.com/Pav0l/express-restricted#readme"
+  "homepage": "https://github.com/Pav0l/express-restricted#readme",
+  "devDependencies": {
+    "express": "^4.17.0",
+    "mocha": "^6.1.4",
+    "supertest": "^4.0.2"
+  }
 }
