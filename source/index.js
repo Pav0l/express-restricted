@@ -1,41 +1,42 @@
-module.exports = function restricted(rules, identifier, req, res, next) {
-  // data checks
+function isString(word) {
+  return typeof word === 'string' ? word : word instanceof String;
+}
+
+const defaultRules = [{ path: '/', access: [] }];
+
+module.exports = function restricted(rules = defaultRules, identifier) {
   const rulesArr = Array.isArray(rules) ? rules : [rules];
-  const idString =
-    typeof identifier === 'string' ? identifier : identifier instanceof String;
+  const idString = isString(identifier);
 
-  const targetPath = req.path;
-  const idRequestingResources = req.body[idString];
-
-  if (idRequestingResources) {
-    res.status(422).json({ error: 'The request did not contain identifier' });
+  if (!idString) {
+    throw new Error('The identifier must be a string');
   }
 
-  const pathCheck = rulesArr.find(rule => rule.path === targetPath);
+  return function(req, res, next) {
+    const targetPath = req.path;
+    const idRequestingResources = req.body[identifier];
 
-  if (!pathCheck) {
-    res.status(404).json({ error: 'This path does not exist' });
-  } else {
-    const isValid = pathCheck.access.includes(idRequestingResources);
+    if (idRequestingResources) {
+      const pathCheck = rulesArr.find(rule => rule.path === targetPath);
 
-    if (isValid) {
-      next();
+      if (!pathCheck) {
+        res.status(404).json({ error: 'This path does not exist' });
+      } else if (pathCheck.access.length === 0) {
+        // empty access array allows public access to the path
+        next();
+      } else {
+        const isValid = pathCheck.access.includes(idRequestingResources);
+
+        if (isValid) {
+          next();
+        } else {
+          res
+            .status(401)
+            .json({ error: 'Unauthorized access to the resource' });
+        }
+      }
     } else {
-      res.status(401).json({ error: 'Unauthorized access to this resource' });
+      res.status(422).json({ error: 'The request did not contain identifier' });
     }
-  }
+  };
 };
-
-/**
- *
- * rules = [
- *  {
- *    path: '/api/users',
- *    access: ['admin', 'maintainer']
- *  },
- *  {
- *    path: '/api/data',
- *    access: ['admin', 'maintainer', 'user']
- *  }
- * ]
- */
