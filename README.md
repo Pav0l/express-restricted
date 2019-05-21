@@ -14,6 +14,12 @@ Installation is done through [npm](https://www.npmjs.com/):
 $ npm i express-restricted
 ```
 
+or if you use [yarn](https://yarnpkg.com/en/):
+
+```
+$ yarn add express-restricted
+```
+
 ## Options
 
 - `config` - Configuration object contains properties used to target where in the `req` object should the middleware look for data.
