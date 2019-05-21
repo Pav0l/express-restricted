@@ -1,42 +1,45 @@
-function isString(word) {
-  return typeof word === 'string' ? word : word instanceof String;
-}
+const jwt = require('jsonwebtoken');
 
-const defaultRules = [{ path: '/', access: [] }];
+module.exports = function restricted(config, allow) {
+  // make sure `allow` is an array
+  const allowArr = Array.isArray(allow) ? allow : [allow];
 
-module.exports = function restricted(rules = defaultRules, identifier) {
-  const rulesArr = Array.isArray(rules) ? rules : [rules];
-  const idString = isString(identifier);
-
-  if (!idString) {
-    throw new Error('The identifier must be a string');
-  }
+  /**
+   * reqProp = REQUIRED
+   * childProp = OPTIONAL
+   * identifier = REQUIRED
+   * jwtKey = REQUIRED
+   *  */
+  const { reqProp, childProp, identifier, jwtKey } = config;
 
   return function(req, res, next) {
-    const targetPath = req.path;
-    const idRequestingResources = req.body[identifier];
+    // where to find the identifier
+    const idRequestingResources = childProp
+      ? req[reqProp][childProp]
+      : req[reqProp];
 
     if (idRequestingResources) {
-      const pathCheck = rulesArr.find(rule => rule.path === targetPath);
-
-      if (!pathCheck) {
-        res.status(404).json({ error: 'This path does not exist' });
-      } else if (pathCheck.access.length === 0) {
-        // empty access array allows public access to the path
-        next();
-      } else {
-        const isValid = pathCheck.access.includes(idRequestingResources);
-
-        if (isValid) {
-          next();
+      jwt.verify(idRequestingResources, jwtKey, (err, decoded) => {
+        if (err) {
+          console.error(err);
+          res.status(401).json({ err: err.message });
         } else {
-          res
-            .status(401)
-            .json({ error: 'Unauthorized access to the resource' });
+          req.decodedPayload = decoded;
+          if (allowArr.length === 0) {
+            next();
+          } else {
+            const isValid = allowArr.includes(decoded[identifier]);
+
+            if (isValid) {
+              next();
+            } else {
+              res.status(401).json({ err: 'Access to this route denied' });
+            }
+          }
         }
-      }
+      });
     } else {
-      res.status(422).json({ error: 'The request did not contain identifier' });
+      res.status(422).json({ err: 'Need to provide reqProp and childProp' });
     }
   };
 };
