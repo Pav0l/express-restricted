@@ -27,7 +27,7 @@ $ yarn add express-restricted
   - `reqProp` - REQUIRED, `String` - first child of `req` object (`body`, `headers`, ...)
   - `childProp` - OPTIONAL, `String` - child of `reqProp` (`Authorization`, ...)
   - `identifier` - REQUIRED, `String` - A property of JWT payload used to identify access rights to the endpoint.
-  - `jwtKey` - REQUIRED, `String` - containing the secret for HMAC algorithms
+  - `jwtKey` - REQUIRED, `String` - containing the secret for HMAC algorithms. Used to generate the JSON Web Token.
 
   Example:
 
@@ -40,7 +40,7 @@ $ yarn add express-restricted
   };
   ```
 
-- `allow` - REQUIRED, `String` or `Array` of `Strings` or an empty `Array` - Used to list `identifier` values, which are allowed to access the endpoint. **An empty array will make the endpoint publicly accessible.**
+- `allow` - REQUIRED, `String` or `Array` of `Strings` or an empty `Array` - Used to list `identifier` values, which are allowed to access the endpoint. **An empty array will make the endpoint accessible to any identifier value.**
 
   Example:
 
@@ -56,8 +56,7 @@ $ yarn add express-restricted
 const express = require('express');
 const restricted = require('express-restricted');
 
-const server = express();
-server.use(express.json());
+const router = express.Router();
 
 const config = {
   reqProp: 'headers',
@@ -67,7 +66,7 @@ const config = {
 };
 
 const allow = {
-  public: [],
+  all: [], // any identifier value has access
   staff: ['receptionist'],
   admins: ['super admin', 'admin']
 };
@@ -88,7 +87,45 @@ router.post('/', restricted(config, allow.staff), (req, res) => {
   res.json({ msg: 'Router POST /:id' });
 });
 
-server.listen(9000, () => console.log('=== Server listening on 9000 === '));
+server.listen(9000);
+```
+
+### Restrict access to all endpoints in a route
+
+```js
+const express = require('express');
+const restricted = require('express-restricted');
+
+const router = express.Router();
+
+const config = {
+  reqProp: 'headers',
+  childProp: 'authorization',
+  identifier: 'user_type',
+  jwtKey: 'ThereIsNoSecret'
+};
+
+const admins: ['super admin', 'admin'];
+
+// Restricts all router endpoints to admins only
+router.use(restricted(config, admins));
+
+router.get('/', (req, res) => {
+  res.json({ msg: 'Router GET /' });
+});
+
+router.get(
+  '/:id/cool/:cool_id',
+  (req, res) => {
+    res.json({ msg: 'Router GET /:id/cool/:cool_id' });
+  }
+);
+
+router.post('/', (req, res) => {
+  res.json({ msg: 'Router POST /:id' });
+});
+
+server.listen(9000);
 ```
 
 ## License
