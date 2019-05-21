@@ -4,7 +4,7 @@
   "description": "Express middleware to prevent access to API endpoints",
   "main": "./source/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,8 @@
     "express": "^4.17.0",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }
