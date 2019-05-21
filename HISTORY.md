@@ -1,10 +1,8 @@
 # 1.0.2
 
 - Fix bug with not passing `req, res, next` to the function.
-- Add type check for `identifier` with error handler.
-- Fix bug in missing `identifier` check.
-- Allow public access to a route with empty `rule.access` array.
-- Add tests.
+- Add `jsonwebtoken` dependency
+- Refactor the code base to support JWT
 - Update documentation.
 
 # 1.0.1
