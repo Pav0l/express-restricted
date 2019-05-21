@@ -1,6 +1,6 @@
 {
   "name": "express-restricted",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Express middleware to prevent access to API endpoints",
   "main": "./source/index.js",
   "scripts": {
