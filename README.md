@@ -40,7 +40,7 @@ $ yarn add express-restricted
   };
   ```
 
-- `allow` - REQUIRED, `String` or `Array` of `Strings` or an empty `Array` - Used to list `identifier` values, which are allowed to access the endpoint. **An empty array will make the endpoint accessible to any identifier value.**
+- `allow` - REQUIRED, `String` or `Array` of `Strings` or an empty `Array` - Used to list `identifier` values, which are allowed to access the endpoint. **An empty array will make the endpoint accessible to any identifier value. The JWT verification still has to pass.**
 
   Example:
 
