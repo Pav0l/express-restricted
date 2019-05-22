@@ -21,8 +21,8 @@ module.exports = function restricted(config, allow) {
     if (idRequestingResources) {
       jwt.verify(idRequestingResources, jwtKey, (err, decoded) => {
         if (err) {
-          console.error(err);
           res.status(401).json({ err: err.message });
+          throw new Error(err);
         } else {
           req.decodedPayload = decoded;
           if (allowArr.length === 0) {
@@ -39,7 +39,9 @@ module.exports = function restricted(config, allow) {
         }
       });
     } else {
-      res.status(422).json({ err: 'Need to provide reqProp and childProp' });
+      res.status(422).json({
+        err: `req.${childProp ? 'reqProp.childProp' : 'reqProp'} is undefined`
+      });
     }
   };
 };
