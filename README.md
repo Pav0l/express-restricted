@@ -27,7 +27,7 @@ $ yarn add express-restricted
   - `reqProp` - REQUIRED, `String` - first child of `req` object (`body`, `headers`, ...)
   - `childProp` - OPTIONAL, `String` - child of `reqProp` (`Authorization`, ...)
   - `identifier` - REQUIRED, `String` - A property of JWT payload used to identify access rights to the endpoint.
-  - `jwtKey` - REQUIRED, `String` - containing the secret for HMAC algorithms. Used to generate the JSON Web Token.
+  - `jwtKey` - REQUIRED, `String` - containing the secret for HMAC algorithms. Used to generate the JSON Web Token. The decoded payload of the token is added to the request object as `decodedPayload` property.
 
   Example:
 
