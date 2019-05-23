@@ -1,10 +1,10 @@
 {
   "name": "express-restricted",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Express middleware to prevent access to API endpoints",
   "main": "./source/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --watch --timeout 5000"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Pav0l/express-restricted#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "express": "^4.17.0",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
