@@ -16,14 +16,14 @@ const access = {
 };
 
 server.get('/', restricted(config, access.loggedIn), (req, res) => {
-  res.status(201).json({ message: 'Endpoint available to logged in users' });
+  res.status(200).json({ message: 'Endpoint available to logged in users' });
 });
 
 server.get('/admin', restricted(config, access.admin), (req, res) => {
   res.status(200).json({ message: 'Secret API available to admin only' });
 });
 
-server.get('/settings', (req, res) => {
+server.get('/users', restricted(config, access.users), (req, res) => {
   res.status(200).json({ message: 'Endpoint available to admin and user' });
 });
 
