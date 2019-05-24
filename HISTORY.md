@@ -1,3 +1,12 @@
+# 1.0.4
+
+- Added tests with `Mocha`, `Chai` and `Supertest`
+- Added CI with `Travis CI`
+
+# 1.0.3
+
+- Documentation updates
+
 # 1.0.2
 
 - Fix bug with not passing `req, res, next` to the function.
