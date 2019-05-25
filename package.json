@@ -1,10 +1,15 @@
 {
   "name": "express-restricted",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Express middleware to prevent access to API endpoints",
   "main": "./source/index.js",
   "scripts": {
-    "test": "mocha --watch --timeout 5000"
+    "test": "mocha --watch --timeout 5000",
+    "coverage": "nyc --reporter=html mocha"
+  },
+  "nyc": {
+    "temp-dir": "./test/coverage/.nyc_output",
+    "report-dir": "./test/coverage"
   },
   "repository": {
     "type": "git",
@@ -25,6 +30,7 @@
     "chai": "^4.2.0",
     "express": "^4.17.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "supertest": "^4.0.2"
   },
   "dependencies": {
