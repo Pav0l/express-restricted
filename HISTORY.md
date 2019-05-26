@@ -1,4 +1,4 @@
-# 1.0.4 (Not published yet)
+# 1.0.4
 
 - Added tests with `Mocha`, `Chai` and `Supertest`
 - Added CI with `Travis CI`
