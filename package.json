@@ -5,7 +5,7 @@
   "main": "./source/index.js",
   "scripts": {
     "test": "mocha --watch --timeout 5000",
-    "coverage": "nyc --reporter=html mocha"
+    "coverage": "nyc --reporter=text mocha"
   },
   "nyc": {
     "temp-dir": "./test/coverage/.nyc_output",
