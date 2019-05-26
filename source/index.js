@@ -14,17 +14,14 @@ module.exports = function restricted(config, allow) {
 
   return function(req, res, next) {
     // where to find the identifier
-    const idRequestingResources = childProp
-      ? req[reqProp][childProp]
-      : req[reqProp];
+    const token = childProp ? req[reqProp][childProp] : req[reqProp];
 
-    if (idRequestingResources) {
-      jwt.verify(idRequestingResources, jwtKey, (err, decoded) => {
+    if (typeof token === 'string') {
+      jwt.verify(token, jwtKey, (err, decoded) => {
         if (err) {
           res.status(401).json({ err: err.message });
-          throw new Error(err);
         } else {
-          req.decodedPayload = decoded;
+          req.decoded = decoded;
           if (allowArr.length === 0) {
             next();
           } else {
@@ -40,7 +37,7 @@ module.exports = function restricted(config, allow) {
       });
     } else {
       res.status(422).json({
-        err: `req.${childProp ? 'reqProp.childProp' : 'reqProp'} is undefined`
+        err: `You must specify property of req.${reqProp} which contains the JWT string.`
       });
     }
   };
