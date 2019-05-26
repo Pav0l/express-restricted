@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/express-restricted.svg)](https://www.npmjs.com/package/express-restricted)
 [![npm](https://img.shields.io/npm/dw/express-restricted.svg)](https://www.npmjs.com/package/express-restricted)
 [![NPM](https://img.shields.io/npm/l/express-restricted.svg)](https://opensource.org/licenses/MIT)
-![Travis (https://travis-ci.com/Pav0l/express-restricted.com)](https://img.shields.io/travis/com/pav0l/express-restricted.svg)
+[![Travis](https://img.shields.io/travis/com/pav0l/express-restricted.svg)](https://travis-ci.com/Pav0l/express-restricted.com)
 
 express-restricted is a simple [Node.js](https://nodejs.org/en/) package for [Express.js](https://expressjs.com/) middleware to restrict access to API endpoints with the use of [JSON Web Tokens](https://tools.ietf.org/html/rfc7519).
 
