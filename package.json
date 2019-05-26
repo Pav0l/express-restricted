@@ -4,7 +4,8 @@
   "description": "Express middleware to prevent access to API endpoints",
   "main": "./source/index.js",
   "scripts": {
-    "test": "mocha --watch --timeout 5000",
+    "test": "mocha --exit",
+    "test_dev": "mocha --watch --timeout 5000",
     "coverage": "nyc --reporter=text mocha"
   },
   "nyc": {
