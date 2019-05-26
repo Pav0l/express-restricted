@@ -1,7 +1,9 @@
-# 1.0.4
+# 1.0.4 (Not published yet)
 
 - Added tests with `Mocha`, `Chai` and `Supertest`
 - Added CI with `Travis CI`
+- Added test coverage with `Istanbul`
+- Change name of decoded token payload added to req object from `decodedPayload` to `decoded`
 
 # 1.0.3
 
