@@ -2,6 +2,7 @@ const express = require('express');
 const restricted = require('../source/index');
 
 const server = express();
+server.use(express.json());
 
 const config = {
   reqProp: 'headers',
@@ -30,6 +31,17 @@ server.get('/users', restricted(config, access.users), (req, res) => {
 server.get(
   '/undefinedReqProp',
   restricted(config, access.loggedIn),
+  (req, res) => {
+    res.status(200).json({ message: 'You should not get this message' });
+  }
+);
+
+server.get(
+  '/bodyPayload',
+  restricted(
+    { ...config, reqProp: 'body', childProp: 'token' },
+    access.loggedIn
+  ),
   (req, res) => {
     res.status(200).json({ message: 'You should not get this message' });
   }
